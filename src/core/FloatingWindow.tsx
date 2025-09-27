@@ -122,10 +122,22 @@ export const FloatingWindow: React.FC<FloatingWindowProps> = ({
         overflow: 'hidden',
         display: windowState.minimized ? 'none' : 'block',
         transition: 'box-shadow 0.2s',
+        border: '2px solid #fff',
       }}
     >
-      {/* TODO: header, controls, etc. */}
-      {children}
+      <div
+        style={{
+          background: '#444',
+          color: '#fff',
+          padding: '12px 16px',
+          fontWeight: 'bold',
+          borderBottom: '1px solid #888',
+          letterSpacing: 1,
+        }}
+      >
+        Floating Window
+      </div>
+      <div style={{ padding: 24, color: '#fff' }}>{children}</div>
     </div>
   );
 };

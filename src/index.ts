@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { FloatingWindow } from './core/FloatingWindow';
+import type { Config } from './types/config';
 import type {
   FloatingWindowDimensions,
   FloatingWindowPositioning,
@@ -30,7 +31,7 @@ const defaultWindowState: FloatingWindowState = {
   opacity: 1,
 };
 
-function renderFloatingWindow(config: Partial<{ theme: string }>) {
+function renderFloatingWindow(config: Partial<{ theme: string }>): void {
   const rootEl = document.getElementById('oklish-root');
   if (!rootEl) return;
   const root = createRoot(rootEl);
@@ -39,20 +40,20 @@ function renderFloatingWindow(config: Partial<{ theme: string }>) {
       dimensions: defaultDimensions,
       positioning: defaultPositioning,
       windowState: defaultWindowState,
-      children: null,
+      children: React.createElement(
+        'div',
+        { style: { color: '#fff', padding: 24 } },
+        'Hello Floating Window'
+      ),
     })
   );
 }
 
-// グローバルAPI
-declare global {
-  interface Window {
-    OKLISH: { init: (config?: any) => void };
-  }
-}
-
-window.OKLISH = {
-  init: (config = {}) => {
+// グローバルAPIはUMDバンドルに任せる
+const OKLISH = {
+  init: (config: Config = {}): void => {
     renderFloatingWindow(config);
   },
 };
+
+export default OKLISH;

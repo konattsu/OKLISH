@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "tsc && rollup -c",
-    "dev": "tsc --watch",
+    "dev": "webpack-dev-server --config build/webpack.dev.mjs --host 0.0.0.0",
     "test": "node tests/master.test.mjs",
     "lint": "eslint src/*",
     "lint:fix": "eslint src/**/*.ts --fix",
@@ -29,6 +29,8 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "3.3.1",
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
     "@types/node": "24.5.1",
     "@types/react": "^19.1.14",
     "@types/react-dom": "^19.1.9",
@@ -38,12 +40,17 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import": "2.32.0",
     "eslint-plugin-unused-imports": "^4.2.0",
+    "html-webpack-plugin": "^5.6.4",
     "husky": "9.1.7",
     "lint-staged": "16.1.6",
     "prettier": "3.6.2",
     "rollup": "^4.21.2",
     "rollup-plugin-typescript2": "^0.36.0",
-    "typescript": "5.9.2"
+    "ts-loader": "^9.5.4",
+    "typescript": "5.9.2",
+    "webpack": "^5.101.3",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
