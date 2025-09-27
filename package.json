@@ -18,7 +18,8 @@
     "format": "prettier --write src/**/*.ts src/*.ts",
     "format:check": "prettier --check src/**/*.ts tests/*.mjs",
     "clean": "rm -rf dist",
-    "prepare": "husky"
+    "prepare": "husky",
+    "size": "rm -rf dist && npm run build && npx terser dist/oklish.js -o dist/oklish.min.js --compress --mangle && gzip -k dist/oklish.js dist/oklish.min.js && ls -lh dist/oklish.js dist/oklish.js.gz dist/oklish.min.js dist/oklish.min.js.gz"
   },
   "keywords": [],
   "author": "Stasshe",
@@ -47,6 +48,7 @@
     "prettier": "3.6.2",
     "rollup": "^4.21.2",
     "rollup-plugin-typescript2": "^0.36.0",
+    "terser": "^5.44.0",
     "ts-loader": "^9.5.4",
     "typescript": "5.9.2",
     "webpack": "^5.101.3",

@@ -1,54 +1,43 @@
 .
-├── CODE_OF_CONDUCT.md
 ├── Development
 │   ├── QUICK_REFERENCE.md
 │   └── README.md
-├── I_HAVE_QUESTIONS.md
 ├── LICENSE
 ├── README.md
 ├── SPECIFICATION.md
 ├── TODO.md
-├── copilot-instructions.md
-├── docs
-│   ├── FLOW.md
-│   └── sample.html
+├── build
+│   └── webpack.dev.mjs
 ├── eslint.config.js
 ├── package-lock.json
 ├── package.json
-├── readme-assets
-│   └── card.jpeg
 ├── rollup.config.js
 ├── src
-│   └── index.ts
+│   ├── core
+│   │   └── FloatingWindow.tsx
+│   ├── docs
+│   ├── examples
+│   ├── index.ts
+│   ├── panels
+│   ├── types
+│   │   ├── config.ts
+│   │   └── floatingWindow.ts
+│   └── utils
 ├── tests
-│   ├── analyze-demo.test.mjs
-│   ├── master.test.mjs
-│   ├── parse-demo.test.mjs
-│   ├── partial
-│   │   ├── advanced-factorization.test.mjs
-│   │   ├── complex-simplify.test.mjs
-│   │   ├── cubic-factorization.test.mjs
-│   │   ├── distribution-unified.test.mjs
-│   │   ├── enhanced-simplify.test.mjs
-│   │   ├── factorization.test.mjs
-│   │   ├── final-distribution-test.test.mjs
-│   │   ├── final-validation.test.mjs
-│   │   ├── simplify.test.mjs
-│   │   ├── test-distribution.test.mjs
-│   │   └── unified-simplify.test.mjs
-│   └── union.test.mjs
+│   └── coreTestPage.html
 ├── tree.sh
 ├── tree.txt
 └── tsconfig.json
 
-7 directories, 35 files
+11 directories, 19 files
 
 src/*.ts, *.tsx の統計:
-Total Lines: 7
-Total Characters: 209
-Total File Size (bytes): 209
+Total Lines: 227
+Total Characters: 6078
+Total File Size (bytes): 6126
 
 Development Size
-800K	.
+181M	.
 
 Build Size
+15M	dist
