@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 
-import { FloatingWindow } from './core/FloatingWindow';
-import { ResizerOnly } from './core/ResizerOnly';
+import { FixedWindow } from './frame/FixedWindow';
+import { FloatingWindow } from './frame/FloatingWindow';
 import type {
   FloatingWindowDimensions,
   FloatingWindowPositioning,
@@ -30,9 +30,9 @@ const defaultWindowState: FloatingWindowState = {
   opacity: 1,
 };
 
-type OKLISHMode = 'floating' | 'fixed';
+type frameMode = 'floating' | 'fixed';
 
-function renderOKLISH(mode: OKLISHMode = 'floating'): void {
+function renderOKLISH(mode: frameMode = 'floating'): void {
   const rootEl = document.getElementById('oklish-root');
   if (!rootEl) return;
   const root = createRoot(rootEl);
@@ -51,7 +51,7 @@ function renderOKLISH(mode: OKLISHMode = 'floating'): void {
     );
   } else {
     root.render(
-      React.createElement(ResizerOnly, {
+      React.createElement(FixedWindow, {
         defaultWidth: 200,
         defaultHeight: 100,
       })
@@ -65,7 +65,7 @@ const OKLISH = {
    * Initialize OKLISH UI
    * @param mode 'floating' (default) or 'fixed'
    */
-  init: (mode: OKLISHMode = 'floating'): void => {
+  init: (mode: frameMode = 'floating'): void => {
     renderOKLISH(mode);
   },
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Rnd } from 'react-rnd';
 
-export interface ResizerOnlyProps {
+export interface FixedWindowProps {
   minWidth?: number;
   minHeight?: number;
   maxWidth?: number;
@@ -11,7 +11,7 @@ export interface ResizerOnlyProps {
   onResize?: (width: number, height: number) => void;
 }
 
-export const ResizerOnly: React.FC<ResizerOnlyProps> = ({
+export const FixedWindow: React.FC<FixedWindowProps> = ({
   minWidth = 100,
   minHeight = 60,
   maxWidth = window.innerWidth,
