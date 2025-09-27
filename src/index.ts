@@ -56,4 +56,10 @@ const OKLISH = {
   },
 };
 
+// UMDバンドル時にwindowにOKLISHを登録
+if (typeof window !== 'undefined') {
+  // @ts-expect-error: Assigning to window for UMD global export
+  window.OKLISH = OKLISH;
+}
+
 export default OKLISH;

@@ -12,13 +12,16 @@
   jjjjjjfasofhawgufahwrguawroguabwrguabw
   <div id="oklish-root"></div>
   
-  <script>
-    // 仮の初期化例
-    if (window.OKLISH && typeof window.OKLISH.init === 'function') {
-      window.OKLISH.init({ theme: 'dark' });
-    } else {
-      document.getElementById('oklish-root').innerText = 'OKLISH is not loaded.';
+  <script type="module" defer>
+    // Wait for window.OKLISH to be defined before calling init
+    function waitForOKLISHInit() {
+      if (window.OKLISH && typeof window.OKLISH.init === 'function') {
+        window.OKLISH.init();
+      } else {
+        setTimeout(waitForOKLISHInit, 50);
+      }
     }
+    waitForOKLISHInit();
   </script>
 </body>
 </html>
