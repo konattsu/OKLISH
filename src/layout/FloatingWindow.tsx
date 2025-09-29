@@ -26,14 +26,14 @@ const getDefaultDimensions = () => {
 };
 
 const iconStyle = (color: string) => ({
-  width: 18,
-  height: 18,
+  width: 16,
+  height: 16,
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: '50%',
   background: color,
-  marginRight: 8,
+  marginRight: 4,
   cursor: 'pointer',
   transition: 'box-shadow 0.2s',
   boxShadow: '0 1px 4px 0 rgba(0,0,0,0.10)',
@@ -75,18 +75,22 @@ export const FloatingWindow: React.FC<FloatingWindowProps> = ({
           zIndex: 99999,
           background: theme.header,
           color: theme.headerText,
-          borderRadius: 12,
+          borderRadius: 10,
           boxShadow: theme.shadow,
-          padding: '6px 18px',
+          padding: '3px 12px',
           cursor: 'pointer',
-          opacity: 0.85,
+          opacity: 0.88,
           fontWeight: 500,
-          fontSize: 15,
-          border: `1.5px solid ${theme.border}`,
+          fontSize: 13,
+          border: `1.2px solid ${theme.border}`,
+          display: 'flex',
+          alignItems: 'center',
+          minWidth: 120,
         }}
         onClick={() => setMinimized(false)}
       >
-        <span style={{ marginRight: 8 }}>🗗</span> Restore Window
+        <span style={{ marginRight: 6, fontSize: 15 }}>🗗</span>
+        <span style={{ flex: 1 }}>Restore</span>
       </div>
     );
   }
@@ -107,12 +111,12 @@ export const FloatingWindow: React.FC<FloatingWindowProps> = ({
       dragHandleClassName="floating-window-handle"
       style={{
         zIndex: 99999,
-        borderRadius: 18,
-        boxShadow: hover ? '0 12px 40px 0 rgba(0,0,0,0.22)' : theme.shadow,
+        borderRadius: 12,
+        boxShadow: hover ? '0 8px 28px 0 rgba(0,0,0,0.18)' : theme.shadow,
         opacity: windowState.opacity,
         transition: 'box-shadow 0.2s, opacity 0.2s',
         overflow: 'hidden',
-        border: `1.5px solid ${theme.border}`,
+        border: `1.2px solid ${theme.border}`,
         background: theme.background,
         display: 'flex',
         flexDirection: 'column',
@@ -130,21 +134,22 @@ export const FloatingWindow: React.FC<FloatingWindowProps> = ({
         style={{
           background: theme.header,
           color: theme.headerText,
-          padding: '0.7rem 1.2rem',
+          padding: '0.35rem 0.7rem',
           display: 'flex',
           alignItems: 'center',
-          borderBottom: `1.5px solid ${theme.border}`,
-          borderTopLeftRadius: 18,
-          borderTopRightRadius: 18,
+          borderBottom: `1.2px solid ${theme.border}`,
+          borderTopLeftRadius: 12,
+          borderTopRightRadius: 12,
           userSelect: 'none',
           fontWeight: 600,
-          fontSize: 17,
-          letterSpacing: 0.2,
-          boxShadow: '0 2px 8px 0 rgba(0,0,0,0.04)',
+          fontSize: 15,
+          letterSpacing: 0.1,
+          minHeight: 14,
+          boxShadow: '0 1px 4px 0 rgba(0,0,0,0.04)',
         }}
       >
         {/* Window Controls */}
-        <div style={{ display: 'flex', alignItems: 'center', marginRight: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', marginRight: 8 }}>
           <span
             title="Minimize"
             style={iconStyle(theme.accent)}
@@ -153,7 +158,7 @@ export const FloatingWindow: React.FC<FloatingWindowProps> = ({
           >
             <FiMinus
               color="#fff"
-              size={14}
+              size={12}
             />
           </span>
           <span
@@ -165,12 +170,12 @@ export const FloatingWindow: React.FC<FloatingWindowProps> = ({
             {maximized ? (
               <FiMinimize
                 color="#fff"
-                size={14}
+                size={12}
               />
             ) : (
               <FiMaximize
                 color="#fff"
-                size={14}
+                size={12}
               />
             )}
           </span>
@@ -182,15 +187,10 @@ export const FloatingWindow: React.FC<FloatingWindowProps> = ({
           >
             <FiX
               color="#fff"
-              size={14}
+              size={12}
             />
           </span>
         </div>
-        <span
-          style={{ flex: 1, textAlign: 'left', fontWeight: 600, fontSize: 17, letterSpacing: 0.2 }}
-        >
-          Floating Window
-        </span>
       </div>
       {/* Content */}
       <div
@@ -198,11 +198,11 @@ export const FloatingWindow: React.FC<FloatingWindowProps> = ({
           flex: 1,
           background: theme.background,
           color: theme.foreground,
-          padding: '1.2rem',
+          padding: '0.7rem 0.7rem',
           overflow: 'auto',
-          fontSize: 16,
-          borderBottomLeftRadius: 18,
-          borderBottomRightRadius: 18,
+          fontSize: 15,
+          borderBottomLeftRadius: 12,
+          borderBottomRightRadius: 12,
           transition: 'background 0.2s',
         }}
       >
