@@ -3,6 +3,8 @@
 tsなので、コードを変更した場合はnpm run buildし、テストはnpm testで実行。
 
 compact, simpledで美しいデザインを心がけろ。
+絵文字は使わず、react-iconsを使え。
+themecontextを使え。
 
 Be sure to reread the file and check for errors whenever you make a large change of 100 lines or more.
 
