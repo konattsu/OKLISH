@@ -1,0 +1,79 @@
+<script lang="ts">
+  import { themeState } from '../../theme/theme.svelte.ts';
+  import { consoleState } from './console.svelte.ts';
+  import type { ConsoleFilter } from './console.types';
+  import LogEntry from './LogEntry.svelte';
+  import CommandInput from './CommandInput.svelte';
+  import SearchInput from '../../ui/SearchInput.svelte';
+
+  const colors = $derived(themeState.theme.colors);
+
+  const filters: { name: ConsoleFilter; label: string }[] = [
+    { name: 'all', label: 'All' },
+    { name: 'error', label: 'Errors' },
+    { name: 'warn', label: 'Warnings' },
+    { name: 'log', label: 'Logs' },
+    { name: 'info', label: 'Info' },
+    { name: 'debug', label: 'Debug' },
+  ];
+</script>
+
+<div class="console-panel">
+  <div class="toolbar" style="border-bottom:1px solid {colors.border};background:{colors.bgSecondary};">
+    <button class="clear-btn" style="color:{colors.textSecondary};" title="Clear console" onclick={() => consoleState.clear()}>
+      ⊘
+    </button>
+    <div class="filters">
+      {#each filters as f}
+        {@const count = consoleState.counts[f.name]}
+        <button
+          class="filter-btn"
+          class:active={consoleState.filter === f.name}
+          style="color:{consoleState.filter === f.name ? colors.accent : colors.textSecondary};"
+          onclick={() => consoleState.setFilter(f.name)}
+        >
+          {f.label}{count > 0 ? ` (${count})` : ''}
+        </button>
+      {/each}
+    </div>
+    <SearchInput value={consoleState.searchQuery} onchange={(v) => consoleState.setSearch(v)} placeholder="Filter output..." />
+  </div>
+
+  <div class="log-list" style="background:{colors.bg};">
+    {#each consoleState.entries as entry (entry.id)}
+      <LogEntry {entry} />
+    {/each}
+    {#if consoleState.entries.length === 0}
+      <div class="empty" style="color:{colors.textMuted};">No console output</div>
+    {/if}
+  </div>
+
+  <CommandInput />
+</div>
+
+<style>
+  .console-panel { display: flex; flex-direction: column; height: 100%; }
+  .toolbar { display: flex; align-items: center; gap: 6px; padding: 4px 8px; flex-shrink: 0; }
+  .clear-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 0 4px;
+  }
+  .clear-btn:hover { opacity: 0.7; }
+  .filters { display: flex; gap: 2px; flex: 1; }
+  .filter-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: inherit;
+  }
+  .filter-btn:hover { opacity: 0.7; }
+  .filter-btn.active { font-weight: 600; }
+  .log-list { flex: 1; overflow-y: auto; min-height: 0; }
+  .empty { padding: 20px; text-align: center; font-size: 12px; }
+</style>

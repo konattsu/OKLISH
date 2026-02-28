@@ -1,0 +1,141 @@
+<script lang="ts">
+  import type { Snippet } from 'svelte';
+  import { themeState } from '../theme/theme.svelte.ts';
+  import { windowState } from './window.svelte.ts';
+  import { WINDOW_DEFAULTS } from '../core/constants';
+  import Titlebar from './Titlebar.svelte';
+  import ResizeHandle from './ResizeHandle.svelte';
+
+  interface Props {
+    onclose?: () => void;
+    children: Snippet;
+  }
+
+  let { onclose, children }: Props = $props();
+
+  const colors = $derived(themeState.theme.colors);
+
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let dragOffsetX = 0;
+  let dragOffsetY = 0;
+  let isDragging = false;
+
+  function ondragstart(e: PointerEvent) {
+    if ((e.target as HTMLElement).closest('.actions')) return;
+    isDragging = true;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    dragOffsetX = windowState.x;
+    dragOffsetY = windowState.y;
+    const el = e.currentTarget as HTMLElement;
+    el.setPointerCapture(e.pointerId);
+
+    function onpointermove(ev: PointerEvent) {
+      windowState.x = dragOffsetX + (ev.clientX - dragStartX);
+      windowState.y = dragOffsetY + (ev.clientY - dragStartY);
+    }
+
+    function onpointerup() {
+      isDragging = false;
+      el.removeEventListener('pointermove', onpointermove);
+      el.removeEventListener('pointerup', onpointerup);
+    }
+
+    el.addEventListener('pointermove', onpointermove);
+    el.addEventListener('pointerup', onpointerup);
+  }
+
+  let resizeStartW = 0;
+  let resizeStartH = 0;
+
+  function onresizeStart() {
+    resizeStartW = windowState.width;
+    resizeStartH = windowState.height;
+  }
+
+  function makeResizeHandler(position: string) {
+    let startW = 0;
+    let startH = 0;
+    let startX = 0;
+    let startY = 0;
+    let initialized = false;
+
+    return (dx: number, dy: number) => {
+      if (!initialized) {
+        startW = windowState.width;
+        startH = windowState.height;
+        startX = windowState.x;
+        startY = windowState.y;
+        initialized = true;
+      }
+
+      let newW = startW;
+      let newH = startH;
+      let newX = startX;
+      let newY = startY;
+
+      if (position.includes('right')) newW = Math.max(WINDOW_DEFAULTS.MIN_WIDTH, startW + dx);
+      if (position.includes('left')) {
+        newW = Math.max(WINDOW_DEFAULTS.MIN_WIDTH, startW - dx);
+        newX = startX + (startW - newW);
+      }
+      if (position.includes('bottom')) newH = Math.max(WINDOW_DEFAULTS.MIN_HEIGHT, startH + dy);
+      if (position.includes('top')) {
+        newH = Math.max(WINDOW_DEFAULTS.MIN_HEIGHT, startH - dy);
+        newY = startY + (startH - newH);
+      }
+
+      windowState.width = newW;
+      windowState.height = newH;
+      windowState.x = newX;
+      windowState.y = newY;
+    };
+  }
+</script>
+
+<div
+  class="floating-window"
+  style="
+    left:{windowState.x}px;
+    top:{windowState.y}px;
+    width:{windowState.width}px;
+    height:{windowState.height}px;
+    background:{colors.bg};
+    border:1px solid {colors.border};
+    color:{colors.text};
+  "
+>
+  <Titlebar {ondragstart} {onclose} />
+  <div class="content">
+    {@render children()}
+  </div>
+
+  <ResizeHandle position="top" onresize={makeResizeHandler('top')} />
+  <ResizeHandle position="bottom" onresize={makeResizeHandler('bottom')} />
+  <ResizeHandle position="left" onresize={makeResizeHandler('left')} />
+  <ResizeHandle position="right" onresize={makeResizeHandler('right')} />
+  <ResizeHandle position="top-left" onresize={makeResizeHandler('top-left')} />
+  <ResizeHandle position="top-right" onresize={makeResizeHandler('top-right')} />
+  <ResizeHandle position="bottom-left" onresize={makeResizeHandler('bottom-left')} />
+  <ResizeHandle position="bottom-right" onresize={makeResizeHandler('bottom-right')} />
+</div>
+
+<style>
+  .floating-window {
+    position: fixed;
+    border-radius: 8px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace;
+    font-size: 12px;
+    z-index: 2147483646;
+  }
+  .content {
+    flex: 1;
+    overflow: auto;
+    min-height: 0;
+  }
+</style>
