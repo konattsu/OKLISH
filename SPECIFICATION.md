@@ -20,6 +20,11 @@ OKLISH - Modern Web Development Tool 仕様書
 
 OKLISHは、Chrome DevToolsライクな機能を提供するモダンなWeb開発検証ツールです。svelte-dnd-actionとかの、フローティングウィンドウとして動作し、既存のWebページに非侵入的に統合できます。
 
+Svelte 5 (Recommended)
+開発中、つまりHMR用ではvite, ライブラリとして出すにはrollupで。
+アイコンライブラリはLucide Svelte
+
+
 ### 1.2 主要特徴
 
 - **モダン設計**: svelte + TypeScript構成
