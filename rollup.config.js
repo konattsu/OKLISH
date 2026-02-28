@@ -3,7 +3,6 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
-import css from 'rollup-plugin-css-only';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -42,9 +41,11 @@ const config = {
       compilerOptions: {
         dev: !production,
         runes: true,
+        css: 'injected',
+        compatibility: { componentApi: '4' },
       },
+      emitCss: false,
     }),
-    css({ output: 'oklish.css' }),
     resolve({
       browser: true,
       dedupe: ['svelte'],
